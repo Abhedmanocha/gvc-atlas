@@ -1,0 +1,518 @@
+{
+ "years": [
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024
+ ],
+ "economies": [
+  {
+   "code": "AUS",
+   "name": "Australia"
+  },
+  {
+   "code": "AUT",
+   "name": "Austria"
+  },
+  {
+   "code": "BEL",
+   "name": "Belgium"
+  },
+  {
+   "code": "BGR",
+   "name": "Bulgaria"
+  },
+  {
+   "code": "BRA",
+   "name": "Brazil"
+  },
+  {
+   "code": "CAN",
+   "name": "Canada"
+  },
+  {
+   "code": "SWI",
+   "name": "Switzerland"
+  },
+  {
+   "code": "PRC",
+   "name": "China"
+  },
+  {
+   "code": "CYP",
+   "name": "Cyprus"
+  },
+  {
+   "code": "CZE",
+   "name": "Czech Republic"
+  },
+  {
+   "code": "GER",
+   "name": "Germany"
+  },
+  {
+   "code": "DEN",
+   "name": "Denmark"
+  },
+  {
+   "code": "SPA",
+   "name": "Spain"
+  },
+  {
+   "code": "EST",
+   "name": "Estonia"
+  },
+  {
+   "code": "FIN",
+   "name": "Finland"
+  },
+  {
+   "code": "FRA",
+   "name": "France"
+  },
+  {
+   "code": "UKG",
+   "name": "United Kingdom"
+  },
+  {
+   "code": "GRC",
+   "name": "Greece"
+  },
+  {
+   "code": "HRV",
+   "name": "Croatia"
+  },
+  {
+   "code": "HUN",
+   "name": "Hungary"
+  },
+  {
+   "code": "INO",
+   "name": "Indonesia"
+  },
+  {
+   "code": "IND",
+   "name": "India"
+  },
+  {
+   "code": "IRE",
+   "name": "Ireland"
+  },
+  {
+   "code": "ITA",
+   "name": "Italy"
+  },
+  {
+   "code": "JPN",
+   "name": "Japan"
+  },
+  {
+   "code": "KOR",
+   "name": "South Korea"
+  },
+  {
+   "code": "LTU",
+   "name": "Lithuania"
+  },
+  {
+   "code": "LUX",
+   "name": "Luxembourg"
+  },
+  {
+   "code": "LVA",
+   "name": "Latvia"
+  },
+  {
+   "code": "MEX",
+   "name": "Mexico"
+  },
+  {
+   "code": "MLT",
+   "name": "Malta"
+  },
+  {
+   "code": "NET",
+   "name": "Netherlands"
+  },
+  {
+   "code": "NOR",
+   "name": "Norway"
+  },
+  {
+   "code": "POL",
+   "name": "Poland"
+  },
+  {
+   "code": "POR",
+   "name": "Portugal"
+  },
+  {
+   "code": "ROM",
+   "name": "Romania"
+  },
+  {
+   "code": "RUS",
+   "name": "Russia"
+  },
+  {
+   "code": "SVK",
+   "name": "Slovakia"
+  },
+  {
+   "code": "SVN",
+   "name": "Slovenia"
+  },
+  {
+   "code": "SWE",
+   "name": "Sweden"
+  },
+  {
+   "code": "TUR",
+   "name": "Türkiye"
+  },
+  {
+   "code": "TAP",
+   "name": "Taipei,China"
+  },
+  {
+   "code": "USA",
+   "name": "United States"
+  },
+  {
+   "code": "BAN",
+   "name": "Bangladesh"
+  },
+  {
+   "code": "MAL",
+   "name": "Malaysia"
+  },
+  {
+   "code": "PHI",
+   "name": "Philippines"
+  },
+  {
+   "code": "THA",
+   "name": "Thailand"
+  },
+  {
+   "code": "VIE",
+   "name": "Viet Nam"
+  },
+  {
+   "code": "KAZ",
+   "name": "Kazakhstan"
+  },
+  {
+   "code": "MON",
+   "name": "Mongolia"
+  },
+  {
+   "code": "SRI",
+   "name": "Sri Lanka"
+  },
+  {
+   "code": "PAK",
+   "name": "Pakistan"
+  },
+  {
+   "code": "FIJ",
+   "name": "Fiji"
+  },
+  {
+   "code": "LAO",
+   "name": "Laos"
+  },
+  {
+   "code": "BRU",
+   "name": "Brunei Darussalam"
+  },
+  {
+   "code": "BHU",
+   "name": "Bhutan"
+  },
+  {
+   "code": "KGZ",
+   "name": "Kyrgyz Republic"
+  },
+  {
+   "code": "CAM",
+   "name": "Cambodia"
+  },
+  {
+   "code": "MLD",
+   "name": "Maldives"
+  },
+  {
+   "code": "NEP",
+   "name": "Nepal"
+  },
+  {
+   "code": "SIN",
+   "name": "Singapore"
+  },
+  {
+   "code": "HKG",
+   "name": "Hong Kong, China"
+  },
+  {
+   "code": "ARG",
+   "name": "Argentina"
+  },
+  {
+   "code": "COL",
+   "name": "Colombia"
+  },
+  {
+   "code": "ECU",
+   "name": "Ecuador"
+  },
+  {
+   "code": "ARM",
+   "name": "Armenia"
+  },
+  {
+   "code": "GEO",
+   "name": "Georgia"
+  },
+  {
+   "code": "EGY",
+   "name": "Egypt"
+  },
+  {
+   "code": "KUW",
+   "name": "Kuwait"
+  },
+  {
+   "code": "SAU",
+   "name": "Saudi Arabia"
+  },
+  {
+   "code": "UAE",
+   "name": "United Arab Emirates"
+  },
+  {
+   "code": "NZL",
+   "name": "New Zealand"
+  },
+  {
+   "code": "RoW",
+   "name": "Rest of World"
+  }
+ ],
+ "sectors": [
+  {
+   "code": "c1",
+   "name": "Agriculture",
+   "long": "Agriculture, hunting, forestry, and fishing",
+   "group": "primary"
+  },
+  {
+   "code": "c2",
+   "name": "Mining",
+   "long": "Mining and quarrying",
+   "group": "primary"
+  },
+  {
+   "code": "c3",
+   "name": "Food & beverages",
+   "long": "Food, beverages, and tobacco",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c4",
+   "name": "Textiles",
+   "long": "Textiles and textile products",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c5",
+   "name": "Leather & footwear",
+   "long": "Leather, leather products, and footwear",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c6",
+   "name": "Wood",
+   "long": "Wood and products of wood and cork",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c7",
+   "name": "Paper & printing",
+   "long": "Pulp, paper, paper products, printing, and publishing",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c8",
+   "name": "Refined petroleum",
+   "long": "Coke, refined petroleum, and nuclear fuel",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c9",
+   "name": "Chemicals & pharma",
+   "long": "Chemicals and chemical products",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c10",
+   "name": "Rubber & plastics",
+   "long": "Rubber and plastics",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c11",
+   "name": "Non-metallic minerals",
+   "long": "Other nonmetallic minerals",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c12",
+   "name": "Metals",
+   "long": "Basic metals and fabricated metal",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c13",
+   "name": "Machinery",
+   "long": "Machinery, nec",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c14",
+   "name": "Electronics & electrical",
+   "long": "Electrical and optical equipment",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c15",
+   "name": "Transport equipment",
+   "long": "Transport equipment",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c16",
+   "name": "Other manufacturing",
+   "long": "Manufacturing, nec; recycling",
+   "group": "manufacturing"
+  },
+  {
+   "code": "c17",
+   "name": "Utilities",
+   "long": "Electricity, gas, and water supply",
+   "group": "utilities & construction"
+  },
+  {
+   "code": "c18",
+   "name": "Construction",
+   "long": "Construction",
+   "group": "utilities & construction"
+  },
+  {
+   "code": "c19",
+   "name": "Motor trade & repair",
+   "long": "Sale, maintenance, and repair of motor vehicles and motorcycles; retail sale of fuel",
+   "group": "services"
+  },
+  {
+   "code": "c20",
+   "name": "Wholesale",
+   "long": "Wholesale trade and commission trade, except of motor vehicles and motorcycles",
+   "group": "services"
+  },
+  {
+   "code": "c21",
+   "name": "Retail",
+   "long": "Retail trade, except of motor vehicles and motorcycles; repair of household goods",
+   "group": "services"
+  },
+  {
+   "code": "c22",
+   "name": "Hotels & restaurants",
+   "long": "Hotels and restaurants",
+   "group": "services"
+  },
+  {
+   "code": "c23",
+   "name": "Land transport",
+   "long": "Inland transport",
+   "group": "services"
+  },
+  {
+   "code": "c24",
+   "name": "Water transport",
+   "long": "Water transport",
+   "group": "services"
+  },
+  {
+   "code": "c25",
+   "name": "Air transport",
+   "long": "Air transport",
+   "group": "services"
+  },
+  {
+   "code": "c26",
+   "name": "Logistics & travel",
+   "long": "Other supporting and auxiliary transport activities; activities of travel agencies",
+   "group": "services"
+  },
+  {
+   "code": "c27",
+   "name": "Telecom & post",
+   "long": "Post and telecommunications",
+   "group": "services"
+  },
+  {
+   "code": "c28",
+   "name": "Finance",
+   "long": "Financial intermediation",
+   "group": "services"
+  },
+  {
+   "code": "c29",
+   "name": "Real estate",
+   "long": "Real estate activities",
+   "group": "services"
+  },
+  {
+   "code": "c30",
+   "name": "Business services",
+   "long": "Renting of M&Eq and other business activities",
+   "group": "services"
+  },
+  {
+   "code": "c31",
+   "name": "Public administration",
+   "long": "Public administration and defense; compulsory social security",
+   "group": "services"
+  },
+  {
+   "code": "c32",
+   "name": "Education",
+   "long": "Education",
+   "group": "services"
+  },
+  {
+   "code": "c33",
+   "name": "Health",
+   "long": "Health and social work",
+   "group": "services"
+  },
+  {
+   "code": "c34",
+   "name": "Other services",
+   "long": "Other community, social, and personal services",
+   "group": "services"
+  },
+  {
+   "code": "c35",
+   "name": "Household services",
+   "long": "Private households with employed persons",
+   "group": "services"
+  }
+ ]
+}
