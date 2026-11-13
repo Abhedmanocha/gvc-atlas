@@ -61,4 +61,4 @@ Known deviation: ADB computed those from a 75-economy table that splits Tajikist
 
 Data: Asian Development Bank, Multiregional Input-Output Tables. Derived indicators computed by this project; ADB is not responsible for them.
 
-Code licence: to be decided.
+Code: [MIT](LICENSE). The licence covers the code only, not the ADB data or the indicators derived from it.
