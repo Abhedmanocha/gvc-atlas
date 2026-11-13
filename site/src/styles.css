@@ -159,7 +159,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
   outline: none;
 }
 .picker-options {
-  flex: 1;
+  flex: 0 1 auto; /* size to the list, shrink to scroll; a zero basis collapses in Safari */
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: var(--space-1);
