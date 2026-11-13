@@ -10,19 +10,54 @@ export interface BarRow {
   /** One value, or up to three stacked segments (coloured home, partner, rest unless `tones` says otherwise). */
   value: number | number[]
   highlight?: boolean
+  /** A quiet break above this row, to separate groups. */
+  gap?: boolean
 }
 
 /** Ranked horizontal bars: label, bar, value. Rows are buttons when `onSelect` is given. */
-export function Bars({ rows, format, onSelect, tones = TONES, max }: {
+export function Bars({ rows, format, onSelect, tones = TONES, max, diverging }: {
   rows: BarRow[]
   format: (v: number) => string
   onSelect?: (key: string) => void
   tones?: Tone[]
   /** Scale maximum; defaults to the largest row total. */
   max?: number
+  /** Signed single values: bars grow right of a shared zero line when positive, left when negative
+   *  (coloured tones[0] and tones[1]). Each side is scaled to its own largest value, or to `max`. */
+  diverging?: boolean
 }) {
   const totals = rows.map(r => sum(r.value))
   const top = max ?? Math.max(0, ...totals)
+  if (diverging) {
+    const up = max ?? Math.max(0, ...totals)
+    const down = max ?? Math.max(0, ...totals.map(t => -t))
+    const span = up + down
+    const zero = span > 0 ? (down / span) * 100 : 0
+    return (
+      <ol className="bars">
+        {rows.map((row, i) => {
+          const v = totals[i]!
+          const w = span > 0 ? (Math.min(Math.abs(v), v < 0 ? down : up) / span) * 100 : 0
+          const content = <>
+            <span className="bars-label">{row.label}</span>
+            <svg className="bars-bar" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true">
+              <rect x={v < 0 ? zero - w : zero} y={0} width={w} height={10} className={`tone-${tones[v < 0 ? 1 : 0] ?? 'rest'}`} />
+              <line x1={zero} x2={zero} y1={-3} y2={13} stroke="var(--ink-2)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+            </svg>
+            <span className="bars-value">{format(v)}</span>
+          </>
+          const cls = row.highlight ? 'bars-row highlight' : 'bars-row'
+          return (
+            <li key={row.key} style={row.gap ? { marginTop: 'var(--space-4)' } : undefined}>
+              {onSelect
+                ? <button type="button" className={cls} onClick={() => onSelect(row.key)}>{content}</button>
+                : <div className={cls}>{content}</div>}
+            </li>
+          )
+        })}
+      </ol>
+    )
+  }
   return (
     <ol className="bars">
       {rows.map((row, i) => {
@@ -43,7 +78,7 @@ export function Bars({ rows, format, onSelect, tones = TONES, max }: {
         </>
         const cls = row.highlight ? 'bars-row highlight' : 'bars-row'
         return (
-          <li key={row.key}>
+          <li key={row.key} style={row.gap ? { marginTop: 'var(--space-4)' } : undefined}>
             {onSelect
               ? <button type="button" className={cls} onClick={() => onSelect(row.key)}>{content}</button>
               : <div className={cls}>{content}</div>}

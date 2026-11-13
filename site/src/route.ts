@@ -4,7 +4,7 @@ import type { Meta } from './data'
 /** Everything a screen depends on. Lives in the URL: #/{economy}/{sector}/{year}/{view}[/{partner}] */
 export interface Selection {
   economy: string // economy code, e.g. "IND"
-  sector: string // sector code "c1"…"c35", or "all"
+  sector: string // sector code "c1"…"c35", "all" or "mfg"
   year: number
   view: string
   partner: string // second economy; in the URL only when not the default
@@ -24,7 +24,7 @@ export function parse(hash: string, meta: Meta, views: string[]): Selection {
   const year = Number(y)
   return {
     economy,
-    sector: s.toLowerCase() === 'all' ? 'all' : findCode(meta.sectors, s) ?? 'all',
+    sector: ['all', 'mfg'].find(a => a === s.toLowerCase()) ?? findCode(meta.sectors, s) ?? 'all',
     year: meta.years.includes(year) ? year : Math.max(...meta.years),
     view: views.includes(v) ? v : views[0]!,
     partner: partner && partner !== economy ? partner : defaultPartner(economy),

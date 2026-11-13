@@ -36,6 +36,20 @@ export function Dev() {
       <h2>Bars, single, static</h2>
       <Bars rows={FLAT} format={usd} />
 
+      <h2>Bars, diverging, with a break</h2>
+      <Bars
+        diverging
+        format={pp}
+        rows={[
+          { key: 'LTU', label: 'Lithuania', value: 0.137 },
+          { key: 'SVN', label: 'Slovenia', value: 0.084 },
+          { key: 'VIE', label: 'Viet Nam', value: 0.039, highlight: true },
+          { key: 'IND', label: 'India', value: -0.004, gap: true },
+          { key: 'UKG', label: 'United Kingdom', value: -0.201, gap: true },
+          { key: 'NET', label: 'Netherlands', value: -0.253 },
+        ]}
+      />
+
       <h2>Trend, three series</h2>
       <Trend
         years={YEARS}

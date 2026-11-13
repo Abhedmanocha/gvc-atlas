@@ -67,7 +67,9 @@ function words(template: string, sel: Selection, meta: Meta): Word[] {
 
 function slotText(slot: Slot, sel: Selection, meta: Meta): string {
   if (slot === 'year') return String(sel.year)
-  if (slot === 'sector') return sel.sector === 'all' ? 'economy' : nameOf(meta.sectors, sel.sector)
+  if (slot === 'sector') {
+    return sel.sector === 'all' ? 'economy' : sel.sector === 'mfg' ? 'manufacturing' : nameOf(meta.sectors, sel.sector)
+  }
   return nameOf(meta.economies, sel[slot])
 }
 
@@ -80,6 +82,7 @@ function optionsFor(slot: Slot, meta: Meta, sel: Selection): Option[] {
   if (slot === 'sector') {
     return [
       { value: 'all', label: 'Whole economy' },
+      { value: 'mfg', label: 'Manufacturing' },
       ...meta.sectors.map(s => ({ value: s.code, label: s.name, group: s.group })),
     ]
   }
