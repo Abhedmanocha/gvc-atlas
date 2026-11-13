@@ -136,7 +136,9 @@ function Picker({ slot, anchor, options, value, onPick, onClose }: {
     const d = dialog.current!
     const r = anchor.getBoundingClientRect()
     d.style.setProperty('--x', `${Math.round(r.left)}px`)
-    d.style.setProperty('--y', `${Math.round(r.bottom + 8)}px`)
+    // Sit under the noun, but move up when the window is too short to show a useful list below it.
+    const room = Math.max(16, innerHeight - 22 * 16 - 16)
+    d.style.setProperty('--y', `${Math.round(Math.min(r.bottom + 8, room))}px`)
     if (!d.open) d.showModal()
     // On touch screens, don't summon the keyboard until asked.
     if (searchable && !matchMedia('(pointer: coarse)').matches) input.current!.focus()
