@@ -1,6 +1,7 @@
 """data/cache/{year}.npz -> site/public/data/. The contract is docs/data.md."""
 import json
 import math
+import shutil
 
 import numpy as np
 
@@ -55,3 +56,4 @@ def main(years):
         print(y, "exported")
     for c in codes:
         write(OUT / "series" / f"{c}.json", series[c])
+    shutil.copyfile(ROOT / "docs" / "data.md", OUT.parent / "data.md")  # the contract ships with the site

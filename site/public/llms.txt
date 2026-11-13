@@ -1,0 +1,23 @@
+# GVC Atlas
+
+Supply-chain exposure, risk, position, gaps and change for 72 economies plus Rest of World and 35 sectors, 2017-2024, computed from the Asian Development Bank Multiregional Input-Output tables. A static site: every answer is read from the JSON files listed below, there is no server.
+
+- [Data contract](data.md): every file, field and formula
+- [Metadata](data/meta.json): years, economies (code, name), sectors, in the order all arrays follow
+
+## Files
+
+Economies and sectors are addressed by index, in `meta.json` order. Each economy has 37 rows: sectors c1..c35, then `all` and `mfg`.
+
+- Economy-year, all fields: [data/2024/IND.json](data/2024/IND.json) (`data/{year}/{ECON}.json`)
+- All economies, scalar fields: [data/2024/index.json](data/2024/index.json) (`data/{year}/index.json`)
+- One economy across years, scalar fields: [data/series/IND.json](data/series/IND.json) (`data/series/{ECON}.json`)
+
+## URLs
+
+`#/{economy}/{sector}/{year}/{view}[/{partner}]`
+
+- economy: code from `meta.json`, e.g. `IND`
+- sector: `c1`..`c35`, `all` or `mfg`
+- view: `exposure`, `risk`, `position`, `gaps`, `change`
+- Example: [#/IND/c14/2024/exposure](./#/IND/c14/2024/exposure)
