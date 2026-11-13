@@ -6,13 +6,26 @@ import { plainSentence, Sentence } from './sentence'
 import { views, viewIds } from './views'
 import type { View, ViewProps } from './views'
 import { Dev } from './dev'
+import { LOAD_ERROR } from './words'
+
+const DATA_URL = 'https://kidb.adb.org/globalization'
+const REPO_URL = 'https://github.com/OWNER/gvc-atlas'
 
 export function App() {
   const [meta, setMeta] = useState<Meta | Error>()
   useEffect(() => { loadMeta().then(setMeta, setMeta) }, [])
   if (!meta) return null
-  if (meta instanceof Error) return <main className="shell"><p className="error">{meta.message}</p></main>
-  return <Shell meta={meta} />
+  if (meta instanceof Error) return <main className="shell"><p className="answer">{LOAD_ERROR}</p></main>
+  return <><Shell meta={meta} /><Footer meta={meta} /></>
+}
+
+function Footer({ meta }: { meta: Meta }) {
+  return (
+    <footer className="footer">
+      Data: <a href={DATA_URL} rel="noopener">Asian Development Bank MRIO</a>, {meta.years[0]}–{meta.years.at(-1)}
+      {' '}<span className="nowrap"><span aria-hidden="true">· </span><a href={REPO_URL} rel="noopener">Source</a></span>
+    </footer>
+  )
 }
 
 function Shell({ meta }: { meta: Meta }) {

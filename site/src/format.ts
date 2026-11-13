@@ -36,3 +36,13 @@ export function usd(millions: number): string {
   }
   return '–'
 }
+
+/**
+ * A move between two shares: "up 3.2 points, from 34% to 37%", or "little changed, at 37%"
+ * when it is under `flat` (a share, default: rounds to nothing).
+ */
+export function shift(from: number, to: number, flat = 0.0005): string {
+  const d = to - from
+  if (Math.abs(d) < flat || Number(short(Math.abs(d) * 100)) === 0) return `little changed, at ${pct(to)}`
+  return `${d > 0 ? 'up' : 'down'} ${short(Math.abs(d) * 100)} points, from ${pct(from)} to ${pct(to)}`
+}

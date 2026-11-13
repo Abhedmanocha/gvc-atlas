@@ -1,21 +1,17 @@
-import { Bars } from '../charts'
+import type { ReactNode } from 'react'
+import { Bars, Key } from '../charts'
 import { useJSON } from '../data'
 import { pct } from '../format'
 import { rowOf, type Detail } from '../types'
+import { cap, LOAD_ERROR, NEGLIGIBLE, ordinal, the } from '../words'
 import type { Screen, View, ViewProps } from '.'
 
 const sentence = "Which of {economy}'s industries lean most on foreign suppliers in {year}?"
 
-/** 1st, 2nd, 3rd, 4th, 11th, 21st … */
-function ordinal(n: number): string {
-  const t = n % 100
-  if (t >= 11 && t <= 13) return `${n}th`
-  return `${n}${({ 1: 'st', 2: 'nd', 3: 'rd' } as Record<number, string>)[n % 10] ?? 'th'}`
-}
-
 function useScreen({ sel, meta, go }: ViewProps): Screen {
   const d = useJSON<Detail>(`${sel.year}/${sel.economy}.json`)
-  if (!d || d instanceof Error) return { sentence }
+  if (!d) return { sentence }
+  if (d instanceof Error) return { sentence, answer: <>{LOAD_ERROR}</> }
 
   // Sectors with real output (at least 0.1% of the economy's) and a defined foreign share.
   const total = d.x[35] ?? 0
@@ -26,7 +22,7 @@ function useScreen({ sel, meta, go }: ViewProps): Screen {
     if (x > 0 && fva != null && x >= total * 0.001) list.push({ i, fva, direct: Math.min(d.fdirect[i] ?? 0, fva) })
   }
   list.sort((a, b) => b.fva - a.fva)
-  if (list.length === 0) return { sentence }
+  if (list.length === 0) return { sentence, answer: <>There is no output here to rank.</> }
 
   const picked = sel.sector === 'all' || sel.sector === 'mfg' ? -1 : rowOf(sel.sector)
   const rank = list.findIndex(r => r.i === picked)
@@ -38,10 +34,20 @@ function useScreen({ sel, meta, go }: ViewProps): Screen {
   const place = rank < 0 || rank === 0 ? 'the most'
     : rank === list.length - 1 ? 'the least'
     : `${ordinal(rank + 1)} most`
+  const hidden = lead.fva - lead.direct
+  const bought = <Key tone="partner">bought directly from abroad</Key>
+  const buried = <Key tone="rest">hidden inside inputs from other suppliers</Key>
+  let split: ReactNode = null
+  if (lead.fva >= 0.0005) {
+    if (hidden / lead.fva < NEGLIGIBLE) split = <> Nearly all of it is {bought}.</>
+    else if (lead.direct / lead.fva < NEGLIGIBLE) split = <> Almost none of it is {bought}; it arrives {buried}.</>
+    else split = <> {pct(lead.direct)} is {bought}; {pct(hidden)} is {buried}.</>
+  }
   const answer = <>
     {name}: {pct(lead.fva)} of every dollar is earned abroad
     {list.length > 1 ? `, ${place} of ${list.length} industries` : ''}.
-    {topEcon && topVa != null ? ` ${topEcon} is the largest source at ${pct(topVa)}.` : ''}
+    {topEcon && topVa != null ? ` ${cap(the(topEcon))} is the largest source at ${pct(topVa)}.` : ''}
+    {split}
   </>
 
   return {
@@ -56,7 +62,7 @@ function useScreen({ sel, meta, go }: ViewProps): Screen {
           highlight: r.i === picked,
         }))}
         format={pct}
-        tones={['home', 'rest']}
+        tones={['partner', 'rest']}
         onSelect={sector => go({ sector })}
       />
     ),

@@ -2,6 +2,7 @@ import { Fragment, useEffect, useId, useLayoutEffect, useMemo, useRef, useState 
 import type { KeyboardEvent } from 'react'
 import type { Meta } from './data'
 import type { Selection } from './route'
+import { economyName, possessive, sectorWord, the } from './words'
 
 type Slot = 'economy' | 'sector' | 'year' | 'partner'
 const SLOTS = /\{(economy|sector|year|partner)\}/
@@ -19,9 +20,9 @@ export function Sentence({ template, sel, meta, go }: {
   return (<>
     <h1 className="sentence">
       {words(template, sel, meta).map((w, i) => typeof w === 'string' ? w : (
-        // The possessive stays glued to its noun when the line wraps.
+        // The article and the possessive stay glued to the noun when the line wraps.
         <span key={i} className="nowrap">
-          <button
+          {w.prefix}<button
             type="button"
             className={`noun noun-${w.slot}`}
             aria-haspopup="dialog"
@@ -47,34 +48,29 @@ export function Sentence({ template, sel, meta, go }: {
 
 /** The sentence as plain text, for the document title. */
 export function plainSentence(template: string, sel: Selection, meta: Meta): string {
-  return words(template, sel, meta).map(w => typeof w === 'string' ? w : w.text + w.suffix).join('')
+  return words(template, sel, meta).map(w => typeof w === 'string' ? w : w.prefix + w.text + w.suffix).join('')
 }
 
-type Word = string | { slot: Slot; text: string; suffix: string }
+type Word = string | { slot: Slot; prefix: string; text: string; suffix: string }
 
-/** Split a template into text and slots; a following "'s" becomes the slot's suffix ("Philippines'"). */
+/** Split a template into text and slots. "the" stays outside the picker; a following "'s" becomes the suffix. */
 function words(template: string, sel: Selection, meta: Meta): Word[] {
   const parts = template.split(SLOTS) // odd indices are slot names
   return parts.map((part, i) => {
     if (i % 2) {
-      const text = slotText(part as Slot, sel, meta)
+      const slot = part as Slot
+      const full = slot === 'economy' || slot === 'partner' ? the(economyName(meta, sel[slot])) : slotText(slot, sel, meta)
+      const prefix = full.startsWith('the ') ? 'the ' : ''
+      const text = full.slice(prefix.length)
       const poss = /^'s\b/.test(parts[i + 1] ?? '')
-      return { slot: part as Slot, text, suffix: poss ? (/s$/.test(text) ? "'" : "'s") : '' }
+      return { slot, prefix, text, suffix: poss ? possessive(text).slice(text.length) : '' }
     }
     return i > 0 && /^'s\b/.test(part) ? part.slice(2) : part
   })
 }
 
 function slotText(slot: Slot, sel: Selection, meta: Meta): string {
-  if (slot === 'year') return String(sel.year)
-  if (slot === 'sector') {
-    return sel.sector === 'all' ? 'economy' : sel.sector === 'mfg' ? 'manufacturing' : nameOf(meta.sectors, sel.sector)
-  }
-  return nameOf(meta.economies, sel[slot])
-}
-
-function nameOf(list: { code: string; name: string }[], code: string) {
-  return list.find(x => x.code === code)?.name ?? code
+  return slot === 'year' ? String(sel.year) : sectorWord(meta, sel.sector)
 }
 
 function optionsFor(slot: Slot, meta: Meta, sel: Selection): Option[] {

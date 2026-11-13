@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 
 /** Data roles, in segment/series order. Colours live in tokens.css. */
 export type Tone = 'home' | 'partner' | 'rest'
@@ -27,58 +28,38 @@ export function Bars({ rows, format, onSelect, tones = TONES, max, diverging }: 
   diverging?: boolean
 }) {
   const totals = rows.map(r => sum(r.value))
-  const top = max ?? Math.max(0, ...totals)
-  if (diverging) {
-    const up = max ?? Math.max(0, ...totals)
-    const down = max ?? Math.max(0, ...totals.map(t => -t))
-    const span = up + down
-    const zero = span > 0 ? (down / span) * 100 : 0
-    return (
-      <ol className="bars">
-        {rows.map((row, i) => {
-          const v = totals[i]!
-          const w = span > 0 ? (Math.min(Math.abs(v), v < 0 ? down : up) / span) * 100 : 0
-          const content = <>
-            <span className="bars-label">{row.label}</span>
-            <svg className="bars-bar" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true">
-              <rect x={v < 0 ? zero - w : zero} y={0} width={w} height={10} className={`tone-${tones[v < 0 ? 1 : 0] ?? 'rest'}`} />
-              <line x1={zero} x2={zero} y1={-3} y2={13} stroke="var(--ink-2)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
-            </svg>
-            <span className="bars-value">{format(v)}</span>
-          </>
-          const cls = row.highlight ? 'bars-row highlight' : 'bars-row'
-          return (
-            <li key={row.key} style={row.gap ? { marginTop: 'var(--space-4)' } : undefined}>
-              {onSelect
-                ? <button type="button" className={cls} onClick={() => onSelect(row.key)}>{content}</button>
-                : <div className={cls}>{content}</div>}
-            </li>
-          )
-        })}
-      </ol>
-    )
-  }
+  const up = max ?? Math.max(0, ...totals)
+  const down = max ?? Math.max(0, ...totals.map(t => -t))
+  const span = up + down
+  const zero = span > 0 ? (down / span) * 100 : 0
   return (
     <ol className="bars">
       {rows.map((row, i) => {
         const total = totals[i]!
-        const segs = Array.isArray(row.value) ? row.value : [row.value]
-        let x = 0
+        let bar
+        if (diverging) {
+          const w = span > 0 ? (Math.min(Math.abs(total), total < 0 ? down : up) / span) * 100 : 0
+          bar = <>
+            <rect x={total < 0 ? zero - w : zero} y={0} width={w} height={10} className={`tone-${tones[total < 0 ? 1 : 0] ?? 'rest'}`} />
+            <line className="bars-zero" x1={zero} x2={zero} y1={-3} y2={13} />
+          </>
+        } else {
+          let x = 0
+          bar = (Array.isArray(row.value) ? row.value : [row.value]).map((v, j) => {
+            const w = up > 0 ? (Math.max(0, v) / up) * 100 : 0
+            const rect = <rect key={j} x={x} y={0} width={w} height={10} className={`tone-${tones[j] ?? 'rest'}`} />
+            x += w
+            return rect
+          })
+        }
         const content = <>
           <span className="bars-label">{row.label}</span>
-          <svg className="bars-bar" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true">
-            {segs.map((v, j) => {
-              const w = top > 0 ? (Math.max(0, v) / top) * 100 : 0
-              const rect = <rect key={j} x={x} y={0} width={w} height={10} className={`tone-${tones[j] ?? 'rest'}`} />
-              x += w
-              return rect
-            })}
-          </svg>
+          <svg className="bars-bar" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true">{bar}</svg>
           <span className="bars-value">{format(total)}</span>
         </>
         const cls = row.highlight ? 'bars-row highlight' : 'bars-row'
         return (
-          <li key={row.key} style={row.gap ? { marginTop: 'var(--space-4)' } : undefined}>
+          <li key={row.key} className={row.gap ? 'bars-gap' : undefined}>
             {onSelect
               ? <button type="button" className={cls} onClick={() => onSelect(row.key)}>{content}</button>
               : <div className={cls}>{content}</div>}
@@ -87,6 +68,11 @@ export function Bars({ rows, format, onSelect, tones = TONES, max, diverging }: 
       })}
     </ol>
   )
+}
+
+/** Words underlined in a data colour: the answer is the legend for the chart's segments. */
+export function Key({ tone, children }: { tone: Tone; children: ReactNode }) {
+  return <span className={`key key-${tone}`}>{children}</span>
 }
 
 export interface Series {

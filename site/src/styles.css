@@ -20,8 +20,13 @@ body {
 }
 
 button { font: inherit; color: inherit; }
+a, button { -webkit-tap-highlight-color: transparent; }
+
+#root { display: flex; flex-direction: column; min-height: 100dvh; }
 
 .shell {
+  flex: 1;
+  width: 100%;
   max-width: calc(var(--measure) + 2 * var(--gutter));
   margin: 0 auto;
   padding: var(--space-5) var(--gutter) var(--space-8);
@@ -43,9 +48,8 @@ button { font: inherit; color: inherit; }
   font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
-  transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
 }
-.views a:hover { color: var(--ink); }
+.views a:focus-visible { outline-offset: -2px; }
 .views a[aria-current="page"] { color: var(--ink); background: var(--surface); }
 
 /* The sentence */
@@ -72,7 +76,7 @@ button { font: inherit; color: inherit; }
   text-decoration-color: var(--line);
   transition: text-decoration-color var(--fast) var(--ease);
 }
-.noun:hover, .noun[aria-expanded="true"] { text-decoration-color: currentColor; }
+.noun[aria-expanded="true"] { text-decoration-color: currentColor; }
 .nowrap { white-space: nowrap; }
 .noun-economy { color: var(--data-home); }
 .noun-partner { color: var(--data-partner); }
@@ -90,7 +94,27 @@ button { font: inherit; color: inherit; }
   border-radius: var(--radius);
   background: var(--surface);
 }
-.error { color: var(--ink-2); }
+
+/* Words in the answer underlined in a data colour: they are the legend for the chart. */
+.key {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+.key-home { text-decoration-color: var(--data-home); }
+.key-partner { text-decoration-color: var(--data-partner); }
+.key-rest { text-decoration-color: var(--data-rest); }
+
+/* The one line at the foot of the page. */
+.footer {
+  width: 100%;
+  max-width: calc(var(--measure) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: var(--space-5) var(--gutter) var(--space-6);
+  color: var(--ink-3);
+  font-size: var(--text-s);
+}
+.footer a { color: inherit; text-underline-offset: 0.2em; text-decoration-color: var(--line); }
 
 /* Picker: a popover under the noun; a bottom sheet on narrow screens. */
 .picker {
@@ -200,13 +224,14 @@ button { font: inherit; color: inherit; }
   font-size: var(--text-s);
 }
 button.bars-row { cursor: pointer; }
-button.bars-row:hover { background: var(--surface); }
 .bars-label { line-height: 1.25; }
 .bars-value { text-align: right; color: var(--ink-2); }
 .bars-row.highlight .bars-label, .bars-row.highlight .bars-value { color: var(--ink); font-weight: 600; }
 .bars-bar { width: 100%; height: 0.875rem; overflow: visible; }
 .bars-bar rect { stroke: var(--bg); stroke-width: 2px; vector-effect: non-scaling-stroke; }
-button.bars-row:hover .bars-bar rect { stroke: var(--surface); }
+
+.bars-gap { margin-top: var(--space-4); }
+.bars-zero { stroke: var(--ink-2); stroke-width: 1; vector-effect: non-scaling-stroke; }
 
 /* Trend */
 .trend { width: 100%; font-size: var(--text-s); }
@@ -216,6 +241,15 @@ button.bars-row:hover .bars-bar rect { stroke: var(--surface); }
 .trend-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .trend-label { fill: var(--ink-2); }
 .trend-value { fill: var(--ink); font-weight: 600; }
+
+/* Hover only where there is a hover: touch screens keep the last tap's hover forever. */
+@media (hover: hover) {
+  .views a:hover { color: var(--ink); }
+  .noun:hover { text-decoration-color: currentColor; }
+  button.bars-row:hover { background: var(--surface); }
+  button.bars-row:hover .bars-bar rect { stroke: var(--surface); }
+  .footer a:hover { text-decoration-color: currentColor; }
+}
 
 /* Tones: one class colours a rect, a line and a dot. */
 .tone-home { fill: var(--data-home); stroke: var(--data-home); }

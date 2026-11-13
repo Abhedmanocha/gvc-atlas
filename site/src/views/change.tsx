@@ -1,8 +1,9 @@
 import { Bars } from '../charts'
 import { useJSON } from '../data'
-import { pct, pp } from '../format'
+import { pp, shift } from '../format'
 import { rowOf } from '../types'
 import type { Index } from '../types'
+import { cap, economyName, LOAD_ERROR, ordinal, the } from '../words'
 import type { Screen, View, ViewProps } from '.'
 
 const BASE = 2017
@@ -22,7 +23,8 @@ function useScreen({ sel, meta, go }: ViewProps): Screen {
 
   const then = useJSON<Index>(`${BASE}/index.json`)
   const now = useJSON<Index>(`${end}/index.json`)
-  if (!then || !now || then instanceof Error || now instanceof Error) return { sentence }
+  if (then instanceof Error || now instanceof Error) return { sentence, answer: <>{LOAD_ERROR}</> }
+  if (!then || !now) return { sentence }
 
   const row = rowOf(sel.sector)
   const level = (d: Index, i: number) => {
@@ -40,7 +42,7 @@ function useScreen({ sel, meta, go }: ViewProps): Screen {
 
   const at = ranked.findIndex(r => r.code === sel.economy)
   const me = ranked[at]
-  const name = meta.economies.find(e => e.code === sel.economy)?.name ?? sel.economy
+  const name = economyName(meta, sel.economy)
 
   const show = new Set<number>()
   ranked.forEach((_, i) => { if (i < ROW_COUNT || i >= ranked.length - ROW_COUNT || i === at) show.add(i) })
@@ -49,10 +51,10 @@ function useScreen({ sel, meta, go }: ViewProps): Screen {
   return {
     sentence,
     answer: me
-      ? <>{name}: {describe(me)}. {ordinal(at + 1)} of {ranked.length}.</>
+      ? <>{name}: {shift(me.before, me.now)} of its exports. {ordinal(at + 1)} of {ranked.length}.</>
       : sel.economy === 'RoW'
-        ? <>Rest of World is a catch-all for many economies, so it is not ranked.</>
-        : <>{name} exports too little in this sector to compare.</>,
+        ? <>{cap(the(name))} is a catch-all for many economies, so it is not ranked.</>
+        : <>{cap(the(name))} exports too little here to compare.</>,
     chart: (
       <Bars
         diverging
@@ -68,20 +70,6 @@ function useScreen({ sel, meta, go }: ViewProps): Screen {
       />
     ),
   }
-}
-
-/** "up 3.2 points, from 34% to 37% of its exports" */
-function describe(e: Entry): string {
-  const points = pp(Math.abs(e.change)).replace(/^\S/, '').replace(' pp', '')
-  const span = `from ${pct(e.before)} to ${pct(e.now)} of its exports`
-  if (pp(e.change).startsWith('±')) return `little changed, at ${pct(e.now)} of its exports`
-  return `${e.change > 0 ? 'up' : 'down'} ${points} points, ${span}`
-}
-
-function ordinal(n: number): string {
-  const tens = n % 100
-  const suffix = tens >= 11 && tens <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10 > 3 ? 0 : n % 10]!
-  return `${n}${suffix}`
 }
 
 export default { id: 'change', label: 'Change', useScreen } satisfies View
