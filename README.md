@@ -8,7 +8,7 @@ A static site that answers supply-chain questions from the ADB Multiregional Inp
 - Gaps: which imported inputs the economy could buy at home.
 - Change: whose sector became more tied into global supply chains.
 
-Live: https://OWNER.github.io/gvc-atlas/
+Live: https://abhedmanocha.github.io/gvc-atlas/
 
 ## URLs
 
@@ -16,8 +16,8 @@ The URL is the state: `#/{economy}/{sector}/{year}/{view}[/{partner}]`.
 Economy is a code from `meta.json`; sector is `c1`..`c35`, `all` or `mfg`; view is `exposure`, `risk`, `position`, `gaps` or `change`.
 
 ```
-https://OWNER.github.io/gvc-atlas/#/IND/c14/2024/exposure
-https://OWNER.github.io/gvc-atlas/#/PRC/all/2024/change
+https://abhedmanocha.github.io/gvc-atlas/#/IND/c14/2024/exposure
+https://abhedmanocha.github.io/gvc-atlas/#/PRC/all/2024/change
 ```
 
 ## Data
@@ -31,7 +31,7 @@ The data is public JSON under `site/public/data/`, served at `data/` on the site
 | `data/series/{ECON}.json` | scalar fields for all years |
 
 ```
-curl https://OWNER.github.io/gvc-atlas/data/2024/IND.json
+curl https://abhedmanocha.github.io/gvc-atlas/data/2024/IND.json
 ```
 
 Every field and formula: [docs/data.md](docs/data.md). For agents: [llms.txt](site/public/llms.txt).

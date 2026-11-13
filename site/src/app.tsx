@@ -9,7 +9,7 @@ import { Dev } from './dev'
 import { LOAD_ERROR } from './words'
 
 const DATA_URL = 'https://kidb.adb.org/globalization'
-const REPO_URL = 'https://github.com/OWNER/gvc-atlas'
+const REPO_URL = 'https://github.com/Abhedmanocha/gvc-atlas'
 
 export function App() {
   const [meta, setMeta] = useState<Meta | Error>()
